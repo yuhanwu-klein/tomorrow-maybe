@@ -1,0 +1,636 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sky: var(--sky);
+  --color-sky-deep: var(--sky-deep);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-stamp: var(--stamp);
+}
+
+:root {
+  /* sky-blue palette inspired by uploaded reference */
+  --sky: oklch(0.92 0.06 235);          /* light sky */
+  --sky-deep: oklch(0.55 0.16 250);     /* deep blue card */
+  --ink: oklch(0.28 0.12 255);          /* ink blue */
+  --paper: oklch(0.96 0.025 80);        /* envelope/letter paper — warm ivory */
+  --ink-sepia: oklch(0.32 0.045 55);    /* warm brown-black ink for handwritten letters */
+  --stamp: oklch(0.72 0.18 35);         /* warm postage red */
+
+  --background: oklch(0.92 0.06 235);
+  --foreground: oklch(0.18 0.06 255);
+  --card: oklch(0.985 0.005 240);
+  --card-foreground: oklch(0.18 0.06 255);
+  --popover: oklch(0.985 0.005 240);
+  --popover-foreground: oklch(0.18 0.06 255);
+  --primary: oklch(0.45 0.18 255);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.88 0.05 235);
+  --secondary-foreground: oklch(0.18 0.06 255);
+  --muted: oklch(0.94 0.025 235);
+  --muted-foreground: oklch(0.45 0.05 255);
+  --accent: oklch(0.85 0.08 235);
+  --accent-foreground: oklch(0.18 0.06 255);
+  --destructive: oklch(0.6 0.22 28);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.78 0.06 240);
+  --input: oklch(0.78 0.06 240);
+  --ring: oklch(0.45 0.18 255);
+  --radius: 6px;
+}
+
+.dark {
+  --background: oklch(0.18 0.06 255);
+  --foreground: oklch(0.96 0.02 235);
+  --card: oklch(0.24 0.08 255);
+  --card-foreground: oklch(0.96 0.02 235);
+  --primary: oklch(0.78 0.12 240);
+  --primary-foreground: oklch(0.15 0.05 255);
+  --border: oklch(1 0 0 / 12%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    background-color: #ffffff;
+    color: #0d0d0d;
+    font-family: var(--font-mono);
+  }
+  .font-mono { font-family: var(--font-mono); }
+  .font-serif { font-family: var(--font-serif); }
+  .font-sans { font-family: var(--font-sans); }
+}
+
+/* Pen cursor for writing surfaces */
+.cursor-pen {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g transform='rotate(45 16 16)'><rect x='14' y='3' width='4' height='20' fill='%23163a8a' stroke='%23ffffff' stroke-width='1'/><polygon points='14,23 18,23 16,30' fill='%23163a8a' stroke='%23ffffff' stroke-width='1'/><rect x='14' y='3' width='4' height='3' fill='%23eab308'/></g></svg>") 16 30, auto;
+}
+
+/* ---------------- Letter paper: aged, hand-laid texture ---------------- */
+
+.paper-texture {
+  position: relative;
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(transparent 0 27px, rgba(120, 90, 50, 0.1) 27px 28px),
+    radial-gradient(ellipse 55% 40% at 10% 6%, rgba(150, 110, 60, 0.09), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 92% 95%, rgba(150, 110, 60, 0.08), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.27 0 0 0 0 0.16 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: auto, auto, auto, 240px 240px;
+  background-blend-mode: normal, multiply, multiply, multiply;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 50px rgba(90, 60, 20, 0.08);
+}
+
+/* A small strip of masking tape, as if pinning the letter down */
+.tape-strip {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 92px;
+  height: 30px;
+  transform: translateX(-50%) rotate(-2deg);
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.35) 0 3px, rgba(190, 188, 180, 0.35) 3px 6px),
+    linear-gradient(rgba(214, 212, 204, 0.82), rgba(188, 186, 178, 0.82));
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+/* An elegant wax seal: an irregular poured-wax drip behind a glossy embossed disc */
+.wax-seal {
+  position: relative;
+  flex-shrink: 0;
+}
+.wax-seal-drip {
+  position: absolute;
+  inset: -12%;
+  display: block;
+  border-radius: 44% 56% 41% 59% / 58% 44% 56% 42%;
+  filter: brightness(0.78) saturate(1.05);
+}
+.wax-seal-face {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow:
+    0 8px 18px rgba(20, 15, 10, 0.35),
+    inset 0 0 0 1.5px rgba(0, 0, 0, 0.18),
+    inset 0 2px 3px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.28);
+}
+.wax-seal-glyph {
+  font-family: var(--font-serif);
+  font-style: italic;
+  line-height: 1;
+  user-select: none;
+  color: rgba(20, 15, 10, 0.55);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45),
+    0 -1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Speech-bubble tails for the conversation thread */
+.chat-bubble.tail-left::after {
+  content: "";
+  position: absolute;
+  left: -9px;
+  bottom: 16px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 10px 8px 0;
+  border-color: transparent var(--paper) transparent transparent;
+  filter: drop-shadow(-2px 2px 2px rgba(20, 15, 10, 0.12));
+}
+.chat-bubble.tail-right::after {
+  content: "";
+  position: absolute;
+  right: -9px;
+  bottom: 16px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent var(--paper);
+  filter: drop-shadow(2px 2px 2px rgba(20, 15, 10, 0.12));
+}
+
+/* Countdown: tabular digit "chips" like a little mechanical ticket-counter */
+.countdown-chip {
+  background: color-mix(in oklab, var(--paper) 65%, white);
+  border: 1px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  border-radius: 7px;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 3px rgba(20, 40, 90, 0.1),
+    0 2px 4px rgba(20, 40, 90, 0.08);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.countdown-colon {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: color-mix(in oklab, var(--ink) 35%, transparent);
+  transform: translateY(-9px);
+}
+.countdown-chip-inline {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--paper) 60%, white);
+  border: 1px solid color-mix(in oklab, var(--ink-sepia) 25%, transparent);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* ---------------- Floating envelopes: a slow flutter + a faint colorful halo ---------------- */
+
+/* A gentle, never-quite-repeating flutter, as if the envelope hangs in still air */
+@keyframes envelope-flutter {
+  0%   { transform: translateY(0) rotate(-1.1deg); }
+  25%  { transform: translateY(-5px) rotate(0.6deg); }
+  50%  { transform: translateY(-8px) rotate(1.3deg); }
+  75%  { transform: translateY(-4px) rotate(0.2deg); }
+  100% { transform: translateY(0) rotate(-1.1deg); }
+}
+
+.envelope-float {
+  animation: envelope-flutter 7s ease-in-out infinite;
+  will-change: transform;
+}
+/* Stagger neighbours so a wall of envelopes never beats in unison */
+.envelope-float:nth-child(3n)   { animation-duration: 8.5s; animation-delay: -1.5s; }
+.envelope-float:nth-child(3n+1) { animation-duration: 6.5s; animation-delay: -3s; }
+
+/* A tiny hand-written name tag pinned to an envelope */
+.name-bubble {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--paper) 88%, white);
+  border: 1px solid color-mix(in oklab, var(--ink-sepia) 22%, transparent);
+  box-shadow:
+    0 6px 14px -6px rgba(20, 15, 10, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: color-mix(in oklab, var(--ink-sepia) 92%, transparent);
+  white-space: nowrap;
+}
+
+/* ---------------- Countdown, louder ---------------- */
+
+/* A big, obvious hero countdown chip */
+.countdown-chip-lg {
+  background: color-mix(in oklab, var(--paper) 62%, white);
+  border: 1px solid color-mix(in oklab, var(--ink) 24%, transparent);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.75),
+    inset 0 -3px 5px rgba(20, 40, 90, 0.12),
+    0 6px 14px -6px rgba(20, 40, 90, 0.28);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+@keyframes colon-blink {
+  0%, 45% { opacity: 1; }
+  55%, 100% { opacity: 0.25; }
+}
+.countdown-colon-lg {
+  font-family: var(--font-mono);
+  line-height: 1;
+  color: color-mix(in oklab, var(--ink) 45%, transparent);
+  animation: colon-blink 1s steps(1, end) infinite;
+}
+
+/* ---------------- Public square: a soft, flowing, low-saturation iridescence ----------------
+   Several pale colour blobs drift slowly across each other — mother-of-pearl, not neon. */
+@keyframes iridescent-flow {
+  0%   { background-position: 0% 50%, 100% 30%, 40% 100%, 80% 70%, 0% 50%; }
+  50%  { background-position: 100% 50%, 0% 70%, 90% 0%, 20% 30%, 100% 50%; }
+  100% { background-position: 0% 50%, 100% 30%, 40% 100%, 80% 70%, 0% 50%; }
+}
+.public-square {
+  background:
+    radial-gradient(42% 55% at 22% 28%, rgba(196, 186, 224, 0.5), transparent 72%),
+    radial-gradient(46% 52% at 80% 22%, rgba(184, 214, 214, 0.45), transparent 72%),
+    radial-gradient(48% 58% at 68% 82%, rgba(226, 198, 214, 0.42), transparent 72%),
+    radial-gradient(44% 54% at 30% 86%, rgba(198, 210, 232, 0.45), transparent 72%),
+    linear-gradient(120deg, #ece9f3, #e9f0f0, #f2ecf0, #eaecf3);
+  background-size: 200% 200%, 220% 220%, 210% 210%, 230% 230%, 300% 300%;
+  animation: iridescent-flow 30s ease-in-out infinite;
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 12px 30px -20px rgba(60, 40, 110, 0.25);
+}
+
+/* A little pill for emoji reactions in the public square */
+.reaction-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--paper) 82%, white);
+  border: 1px solid color-mix(in oklab, var(--ink-sepia) 18%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  color: color-mix(in oklab, var(--ink-sepia) 80%, transparent);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.reaction-pill:hover { transform: translateY(-1px); }
+.reaction-pill[data-mine="true"] {
+  background: color-mix(in oklab, var(--stamp) 22%, var(--paper));
+  border-color: color-mix(in oklab, var(--stamp) 45%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope-float, .countdown-colon-lg, .public-square { animation: none; }
+}
+
+/* ================================================================
+   MSCHF / WHITE WHALE — brutalist catalog system
+   Stark off-white, ink-black, one acid accent. Anti-design on purpose.
+   ================================================================ */
+
+:root {
+  --bwt: #0d0d0d;          /* ink */
+  --bwt-paper: #e9e7de;    /* warm off-white */
+  --bwt-acid: #ff3b1e;     /* single alarm accent */
+}
+
+/* White canvas — the pixel envelopes live on clean paper */
+.brut-page {
+  background-color: #ffffff;
+}
+
+.brut-mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.brut-border { border: 2px solid var(--bwt); }
+
+/* Hard-edged button that inverts on hover */
+.brut-btn {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border: 2px solid var(--bwt);
+  background: transparent;
+  color: var(--bwt);
+  transition: background 0.08s linear, color 0.08s linear, transform 0.08s linear;
+}
+.brut-btn:hover { background: var(--bwt); color: var(--bwt-paper); }
+.brut-btn:active { transform: translate(2px, 2px); }
+.brut-btn-acid:hover { background: var(--bwt-acid); border-color: var(--bwt-acid); color: #fff; }
+
+/* Catalog rows: numbered list, whole row inverts on hover */
+.catalog {
+  border-top: 2px solid var(--bwt);
+}
+.catalog-row {
+  display: grid;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid var(--bwt);
+  background: transparent;
+  color: var(--bwt);
+  text-align: left;
+  transition: background 0.07s linear, color 0.07s linear, padding-left 0.12s ease;
+}
+.catalog-row:hover {
+  background: var(--bwt);
+  color: var(--bwt-paper);
+  padding-left: 10px;
+}
+.catalog-row:hover .swatch { box-shadow: 0 0 0 2px var(--bwt-paper); }
+.catalog-row[data-locked="true"] { color: rgba(13, 13, 13, 0.45); cursor: default; }
+.catalog-row[data-locked="true"]:hover {
+  background: repeating-linear-gradient(45deg, transparent 0 6px, rgba(13,13,13,0.06) 6px 12px);
+  color: rgba(13, 13, 13, 0.6);
+  padding-left: 0;
+}
+
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--bwt);
+  flex-shrink: 0;
+}
+
+/* Blinking block cursor / colon */
+@keyframes brut-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.brut-blink { animation: brut-blink 1s steps(1) infinite; }
+
+/* Big monospace countdown slab */
+.brut-digit {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 0.9;
+  border: 2px solid var(--bwt);
+  background: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Brutalist speech box (no soft bubbles) */
+.brut-msg {
+  border: 2px solid var(--bwt);
+  background: #fff;
+}
+.brut-msg[data-side="right"] {
+  background: var(--bwt);
+  color: var(--bwt-paper);
+}
+
+/* Reaction cell */
+.brut-react {
+  font-family: var(--font-mono);
+  border: 2px solid var(--bwt);
+  background: transparent;
+  border-radius: 999px;
+  transition: background 0.07s linear, transform 0.07s linear, box-shadow 0.07s linear;
+}
+.brut-react:hover { transform: translate(-1px, -1px) scale(1.06); box-shadow: 3px 3px 0 var(--bwt); }
+.brut-react[data-mine="true"] {
+  background: var(--bwt-acid);
+  color: #fff;
+  border-color: var(--bwt);
+  box-shadow: 3px 3px 0 var(--bwt);
+}
+.brut-react[data-mine="true"] .react-emoji { transform: scale(1.2); }
+.react-emoji { display: inline-block; transition: transform 0.15s ease; }
+@keyframes react-bounce {
+  0% { transform: scale(1) rotate(0deg); }
+  30% { transform: scale(1.5) rotate(-12deg); }
+  55% { transform: scale(0.85) rotate(10deg); }
+  75% { transform: scale(1.15) rotate(-4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.react-pop { animation: react-bounce 0.42s ease; }
+
+/* ================================================================
+   PIXEL ENVELOPES — grab-to-open, on white paper
+   ================================================================ */
+
+/* A little pixel hand you use to grab an envelope; it closes into a fist on press */
+.env-grab {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' shape-rendering='crispEdges'%3E%3Cg fill='%23ffffff' stroke='%23111111' stroke-width='1.5'%3E%3Crect x='7' y='10' width='13' height='11'/%3E%3Crect x='7' y='5' width='2.5' height='7'/%3E%3Crect x='10.5' y='3' width='2.5' height='9'/%3E%3Crect x='14' y='3' width='2.5' height='9'/%3E%3Crect x='17.5' y='5' width='2.5' height='7'/%3E%3Crect x='4' y='12' width='4' height='4'/%3E%3C/g%3E%3C/svg%3E") 13 4,
+    grab;
+}
+.env-grab:active {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='24' shape-rendering='crispEdges'%3E%3Cg fill='%23ffffff' stroke='%23111111' stroke-width='1.5'%3E%3Crect x='6' y='9' width='14' height='11'/%3E%3Crect x='7' y='6' width='3' height='4'/%3E%3Crect x='10.5' y='5' width='3' height='5'/%3E%3Crect x='14' y='5' width='3' height='5'/%3E%3Crect x='17' y='6' width='3' height='4'/%3E%3Crect x='4' y='11' width='3' height='4'/%3E%3C/g%3E%3C/svg%3E") 13 6,
+    grabbing;
+}
+.env-locked { cursor: not-allowed; }
+
+/* Envelopes hang in the air with a slow, staggered bob */
+@keyframes env-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.env-bob { animation: env-bob 4.5s ease-in-out infinite; }
+.env-bob:nth-child(3n) { animation-duration: 5.5s; animation-delay: -1.2s; }
+.env-bob:nth-child(3n+1) { animation-duration: 3.8s; animation-delay: -2.4s; }
+
+/* Grab-target lifts + tilts under the hand */
+.env-art { transition: transform 0.14s ease, filter 0.14s ease; transform-origin: center bottom; }
+.env-grab:hover .env-art { transform: translateY(-8px) scale(1.05) rotate(-2deg); filter: drop-shadow(0 10px 8px rgba(0,0,0,0.18)); }
+.env-grab:active .env-art { transform: translateY(-2px) scale(0.98) rotate(1deg); }
+
+/* Pop when it opens */
+@keyframes env-open-pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.16) rotate(3deg); }
+  100% { transform: scale(1); }
+}
+.env-opening .env-art { animation: env-open-pop 0.3s ease; }
+
+/* Unread notification badge jitters for attention */
+@keyframes badge-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-9deg); }
+  75% { transform: rotate(9deg); }
+}
+.badge-wiggle { animation: badge-wiggle 1.3s ease-in-out infinite; transform-origin: center; }
+
+/* Modal springs in */
+@keyframes modal-pop {
+  from { transform: translateY(12px) scale(0.96); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.modal-pop { animation: modal-pop 0.18s ease-out; }
+
+/* ================= comic hero heading ================= */
+.comic-hero {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #0d0d0d;
+  -webkit-text-stroke: 3px #0d0d0d;
+  paint-order: stroke fill;
+}
+.comic-hero-line {
+  display: inline-block;
+  text-shadow:
+    4px 4px 0 #0d0d0d,
+    -1px -1px 0 #0d0d0d,
+    1px -1px 0 #0d0d0d,
+    -1px 1px 0 #0d0d0d;
+  color: #fff;
+  -webkit-text-stroke: 2.5px #0d0d0d;
+}
+.comic-hero-accent {
+  color: #ff3b1e;
+}
+
+/* ================= starburst prompt ================= */
+@keyframes starburst-sway {
+  0%   { transform: rotate(-12deg); }
+  15%  { transform: rotate(8deg); }
+  30%  { transform: rotate(-15deg); }
+  45%  { transform: rotate(5deg); }
+  60%  { transform: rotate(-10deg); }
+  75%  { transform: rotate(14deg); }
+  90%  { transform: rotate(-6deg); }
+  100% { transform: rotate(-12deg); }
+}
+.starburst-sway {
+  animation: starburst-sway 6s ease-in-out infinite;
+  transform-origin: center center;
+}
+/* starburst text inside SVG wobbles with the shape */
+.starburst-text-line1,
+.starburst-text-line2 {
+  filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.3));
+}
+.starburst-wrap {
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.starburst-wrap:hover {
+  transform: scale(1.08);
+}
+.starburst-wrap:active {
+  transform: scale(0.95);
+}
+
+/* ================= dice prompt ================= */
+@keyframes dice-roll {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(90deg) scale(0.8); }
+  50%  { transform: rotate(180deg) scale(1.1); }
+  75%  { transform: rotate(270deg) scale(0.9); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.dice-rolling {
+  animation: dice-roll 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes dice-hover-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.dice-bounce {
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.dice-bounce:hover {
+  animation: dice-hover-bounce 0.6s ease infinite;
+}
+
+/* ================= landing gate: envelopes orbiting ENTER ================= */
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+.orbit { animation: orbit-spin 52s linear infinite; }
+.orbit-upright { animation: orbit-spin 52s linear infinite reverse; }
+.sat-scale { transform: scale(0.36); transform-origin: center; }
+@media (min-width: 400px) { .sat-scale { transform: scale(0.44); } }
+@media (min-width: 480px) { .sat-scale { transform: scale(0.55); } }
+@media (min-width: 640px) { .sat-scale { transform: scale(0.75); } }
+@media (min-width: 768px) { .sat-scale { transform: scale(1); } }
+@keyframes gate-fade { from { opacity: 0; } to { opacity: 1; } }
+.gate-fade { animation: gate-fade 0.35s ease; }
+@keyframes gate-leave { to { opacity: 0; transform: scale(1.04); } }
+.gate-leave { animation: gate-leave 0.35s ease forwards; }
+
+/* checkerboard of light-blue / mid-blue squares, with a grid line on top of every square */
+.pixel-grid-bg {
+  background-color: #cfe8fb;
+  background-image:
+    linear-gradient(45deg, #8fc3e8 25%, transparent 25%),
+    linear-gradient(-45deg, #8fc3e8 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #8fc3e8 75%),
+    linear-gradient(-45deg, transparent 75%, #8fc3e8 75%),
+    linear-gradient(#6fa8d8 1px, transparent 1px),
+    linear-gradient(90deg, #6fa8d8 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 0 0, 0 14px, 14px -14px, -14px 0, 0 0, 0 0;
+}
+
+/* hard-edged pixel button: shadow collapses under it on press */
+.pixel-enter-btn {
+  font-family: var(--font-mono);
+  border: 3px solid #0d0d0d;
+  background: #fff;
+  color: #0d0d0d;
+  box-shadow: 5px 5px 0 #0d0d0d;
+  transition: transform 0.08s linear, box-shadow 0.08s linear, background 0.08s linear, color 0.08s linear;
+}
+.pixel-enter-btn:hover { background: var(--bwt-acid); border-color: var(--bwt-acid); color: #fff; }
+.pixel-enter-btn:active { transform: translate(5px, 5px); box-shadow: 0 0 0 #0d0d0d; }
+
+@media (prefers-reduced-motion: reduce) {
+  .env-bob, .badge-wiggle, .orbit, .orbit-upright { animation: none; }
+}

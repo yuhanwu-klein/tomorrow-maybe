@@ -1,0 +1,4 @@
+project_id = "tgsmvkvdlvgvgjixivif"
+
+[functions.send-letter-emails]
+verify_jwt = false

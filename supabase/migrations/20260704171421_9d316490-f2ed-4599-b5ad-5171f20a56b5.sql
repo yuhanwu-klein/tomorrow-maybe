@@ -1,0 +1,1 @@
+REVOKE SELECT (recipient_email) ON public.letters FROM anon, authenticated;
